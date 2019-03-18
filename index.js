@@ -83,14 +83,19 @@ server.put('/api/users/:id', (req, res) => {
     const changes = req.body;
 
     db.update(id, changes).then(updated => {
-        if(updated) {
+
+        if (!id) {
+            res.status(500).json({message: 'The user with the specified ID does not exist.'});
+        } else if (!changes.name || !changes.bio ) {
+            res.status(400).json({message: 'Please provide the name and bio for the user.'});
+        } else if(updated) {
             res.status(200).json(updated);
         } else {
             res.status(404).json({message: 'user not found'});
         }
     })
     .catch(error => {
-        res.status(500).json({message: 'error updating the user'});
+        res.status(500).json({message: 'The user information could not be modified.'});
     })
 });
 
