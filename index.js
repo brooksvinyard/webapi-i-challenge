@@ -89,7 +89,7 @@ server.put('/api/users/:id', (req, res) => {
         } else if (!changes.name || !changes.bio ) {
             res.status(400).json({message: 'Please provide the name and bio for the user.'});
         } else if(updated) {
-            res.status(200).json(updated);
+            res.status(200).json(changes);
         } else {
             res.status(404).json({message: 'user not found'});
         }
